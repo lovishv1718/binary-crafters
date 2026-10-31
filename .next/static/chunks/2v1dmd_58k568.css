@@ -1,0 +1,1 @@
+.bc-mark{height:auto;display:block}.bc-mark--dark,html[data-theme=dark] .bc-mark--light{display:none}html[data-theme=dark] .bc-mark--dark{display:block}:root{--theme-success-500:#0775fe}.btn--style-primary{color:#fff;background-color:#0775fe}.btn--style-primary:hover:not(:disabled){background-color:#0062e0}

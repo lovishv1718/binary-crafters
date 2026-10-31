@@ -1,0 +1,20 @@
+{
+  "/(frontend)/about/page": "/about",
+  "/(frontend)/blog/[slug]/page": "/blog/[slug]",
+  "/(frontend)/blog/page": "/blog",
+  "/(frontend)/contact/page": "/contact",
+  "/(frontend)/page": "/",
+  "/(frontend)/privacy/page": "/privacy",
+  "/(frontend)/results/[slug]/page": "/results/[slug]",
+  "/(frontend)/results/page": "/results",
+  "/(frontend)/services/[slug]/page": "/services/[slug]",
+  "/(frontend)/services/page": "/services",
+  "/(payload)/admin/[[...segments]]/page": "/admin/[[...segments]]",
+  "/(payload)/api/[...slug]/route": "/api/[...slug]",
+  "/(payload)/api/graphql-playground/route": "/api/graphql-playground",
+  "/(payload)/api/graphql/route": "/api/graphql",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml"
+}

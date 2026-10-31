@@ -1,0 +1,28 @@
+{
+  "name": "binary-crafters",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20.9"
+  },
+  "scripts": {
+    "start": "HOSTNAME=0.0.0.0 node server.js"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "3.91.0",
+    "@payloadcms/db-sqlite": "3.91.0",
+    "@payloadcms/email-nodemailer": "3.91.0",
+    "@payloadcms/next": "3.91.0",
+    "@payloadcms/richtext-lexical": "3.91.0",
+    "@payloadcms/storage-vercel-blob": "3.91.0",
+    "@payloadcms/ui": "3.91.0",
+    "cross-env": "7.0.3",
+    "dotenv": "16.4.7",
+    "graphql": "16.14.2",
+    "next": "16.3.3",
+    "payload": "3.91.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "sharp": "0.35.4"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "pages": {},
+  "app": {
+    "[project]/src/app/(frontend)/results/page": [
+      "static/media/a343f882a40d2cc9-s.p.0p-wng2nn8o-p.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pagesUsingSizeAdjust": false
+}

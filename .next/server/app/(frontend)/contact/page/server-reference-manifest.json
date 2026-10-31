@@ -1,0 +1,16 @@
+{
+  "node": {
+    "603dbf314c5b864c45c04c8fed4fd7e13b7e536c6f": {
+      "workers": {
+        "app/(frontend)/contact/page": {
+          "moduleId": 210318,
+          "async": true,
+          "codeHash": null
+        }
+      },
+      "exportedName": "submitEnquiry",
+      "filename": "src/app/(frontend)/contact/actions.ts"
+    }
+  },
+  "edge": {}
+}
