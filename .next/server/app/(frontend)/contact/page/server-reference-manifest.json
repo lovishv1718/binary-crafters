@@ -1,6 +1,6 @@
 {
   "node": {
-    "603dbf314c5b864c45c04c8fed4fd7e13b7e536c6f": {
+    "60927ac2ca49707e2bdc3af0d4a61fd730fb5c2365": {
       "workers": {
         "app/(frontend)/contact/page": {
           "moduleId": 210318,
