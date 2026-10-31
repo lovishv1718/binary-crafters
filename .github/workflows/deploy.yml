@@ -43,7 +43,7 @@ jobs:
             const pkg = require("./package.json")
             const deps = {}
             for (const name of Object.keys(pkg.dependencies)) deps[name] = require(`./node_modules/${name}/package.json`).version
-            const out = { name: pkg.name, private: true, type: "commonjs", engines: { node: ">=20.9" }, scripts: { start: "HOSTNAME=0.0.0.0 node server.js" }, dependencies: deps }
+            const out = { name: pkg.name, private: true, type: pkg.type || "module", engines: { node: ">=20.9" }, scripts: { start: "HOSTNAME=0.0.0.0 node server.js" }, dependencies: deps }
             require("fs").writeFileSync(process.argv[1], JSON.stringify(out, null, 2))
           ' "$OUT/package.json"
           cp .npmrc "$OUT/.npmrc"
