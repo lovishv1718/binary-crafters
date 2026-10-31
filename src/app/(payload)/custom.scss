@@ -1,0 +1,32 @@
+// Binary Crafters admin branding
+
+.bc-mark {
+  display: block;
+  height: auto;
+}
+
+.bc-mark--dark {
+  display: none;
+}
+
+html[data-theme='dark'] {
+  .bc-mark--light {
+    display: none;
+  }
+  .bc-mark--dark {
+    display: block;
+  }
+}
+
+:root {
+  --theme-success-500: #0775fe;
+}
+
+.btn--style-primary {
+  background-color: #0775fe;
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background-color: #0062e0;
+  }
+}

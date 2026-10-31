@@ -1,0 +1,12 @@
+# Local-only files: never upload to Vercel
+binarycrafters.db
+binarycrafters.db-*
+media
+.env
+.env.local
+.env.deploy
+.claude
+.agents
+tests
+test-results
+playwright-report
