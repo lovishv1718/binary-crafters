@@ -36,8 +36,18 @@ jobs:
           rm -f "$OUT/.env"
           cp -r .next/static "$OUT/.next/static"
           cp -r public "$OUT/public"
-          # Dependencies are already bundled, so `npm install` on the host has nothing to do.
-          echo '{"name":"binary-crafters","private":true,"scripts":{"start":"node server.js"}}' > "$OUT/package.json"
+          # The host discards node_modules and runs `npm install` itself, so ship the runtime
+          # dependencies pinned to the exact versions this build used. No build script on purpose.
+          rm -rf "$OUT/node_modules"
+          node -e '
+            const pkg = require("./package.json")
+            const deps = {}
+            for (const name of Object.keys(pkg.dependencies)) deps[name] = require(`./node_modules/${name}/package.json`).version
+            const out = { name: pkg.name, private: true, type: "commonjs", engines: { node: ">=20.9" }, scripts: { start: "node server.js" }, dependencies: deps }
+            require("fs").writeFileSync(process.argv[1], JSON.stringify(out, null, 2))
+          ' "$OUT/package.json"
+          cp .npmrc "$OUT/.npmrc"
+          cat "$OUT/package.json"
           cp scripts/DEPLOY_README.md "$OUT/README.md"
 
       - name: Publish to deploy branch
