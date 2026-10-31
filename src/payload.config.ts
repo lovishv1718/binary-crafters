@@ -1,4 +1,4 @@
-import { postgresAdapter } from '@payloadcms/db-postgres'
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -23,7 +23,8 @@ import { migrations } from './migrations'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// Local development uses a SQLite file; hosting (Vercel) uses Postgres when a postgres:// URL is set.
+// Local development uses a SQLite file; hosting uses Neon Postgres when a postgres:// URL is set.
+// The Neon serverless driver talks over HTTPS/WebSockets (port 443), because GoDaddy blocks port 5432.
 const databaseUrl = process.env.DATABASE_URL || ''
 const usePostgres = /^postgres(ql)?:\/\//.test(databaseUrl)
 
@@ -66,7 +67,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: usePostgres
-    ? postgresAdapter({
+    ? vercelPostgresAdapter({
         pool: { connectionString: databaseUrl },
         migrationDir: path.resolve(dirname, 'migrations'),
         // Schema changes ship as migrations and run automatically on deploy.
