@@ -52,10 +52,15 @@ jobs:
 
       - name: Publish to deploy branch
         run: |
-          cd deploy-out
-          git init -q -b deploy
+          # Add each build as a normal commit on top of the branch (no force push), so the host's
+          # `git pull` fast-forwards cleanly instead of merging old builds into new ones.
+          REPO="https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git clone -q --depth 1 --branch deploy "$REPO" publish || { mkdir publish && git -C publish init -q -b deploy; }
+          find publish -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r deploy-out/. publish/
+          cd publish
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
           git add -A -f
-          git commit -qm "Build ${GITHUB_SHA::7}"
-          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" deploy
+          git commit -qm "Build ${GITHUB_SHA::7}" || { echo "No changes"; exit 0; }
+          git push "$REPO" HEAD:deploy
