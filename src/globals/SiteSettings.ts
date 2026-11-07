@@ -1,11 +1,14 @@
 import type { GlobalConfig } from 'payload'
 
+import { allow, hiddenUnless } from '../access/roles'
+
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   label: 'Site settings',
-  admin: { group: 'Settings' },
+  admin: { group: 'Settings', hidden: hiddenUnless('siteSettings') },
   access: {
     read: () => true,
+    update: allow('siteSettings', 'edit'),
   },
   fields: [
     {

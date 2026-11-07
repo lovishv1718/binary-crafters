@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
+import { allow, allowCreate, hiddenUnless } from '../access/roles'
 import { slugField } from '../fields/slug'
 
 export const Posts: CollectionConfig = {
@@ -8,6 +9,7 @@ export const Posts: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: 'Content',
+    hidden: hiddenUnless('posts'),
     defaultColumns: ['title', 'category', 'publishedAt', '_status'],
   },
   defaultSort: '-publishedAt',
@@ -15,8 +17,14 @@ export const Posts: CollectionConfig = {
     drafts: true,
   },
   access: {
-    // Anyone can read published posts; drafts only for logged-in editors.
-    read: ({ req }) => (req.user ? true : { _status: { equals: 'published' } }),
+    // Anyone can read published posts; drafts only for the owner and staff with blog access.
+    read: async (args) => {
+      const result = args.req.user ? await allow('posts', 'read')(args) : false
+      return result === false ? { _status: { equals: 'published' } } : result
+    },
+    create: allowCreate('posts'),
+    update: allow('posts', 'edit'),
+    delete: allow('posts', 'full'),
   },
   fields: [
     { name: 'title', type: 'text', required: true },

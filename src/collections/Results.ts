@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
+import { allow, allowCreate, enforceServiceScope, hiddenUnless, publicRead } from '../access/roles'
 import { slugField } from '../fields/slug'
 
 export const Results: CollectionConfig = {
@@ -8,13 +9,20 @@ export const Results: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: 'Content',
+    hidden: hiddenUnless('results'),
     defaultColumns: ['title', 'client', 'services', 'featured', 'date'],
     description:
       'Client wins with screenshots and numbers. Tag each result with its services and it appears on those service pages automatically.',
   },
   defaultSort: '-date',
   access: {
-    read: () => true,
+    read: publicRead('results'),
+    create: allowCreate('results'),
+    update: allow('results', 'edit'),
+    delete: allow('results', 'full'),
+  },
+  hooks: {
+    beforeChange: [enforceServiceScope],
   },
   fields: [
     {

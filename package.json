@@ -17,6 +17,7 @@
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation payload run src/seed/index.ts",
+    "seed:roles": "cross-env NODE_OPTIONS=--no-deprecation payload run src/seed/roles.ts",
     "seed:portfolio": "cross-env NODE_OPTIONS=--no-deprecation payload run src/seed/portfolio.ts",
     "shots": "node scripts/portfolio-shots.mjs",
     "seed:service-photos": "cross-env NODE_OPTIONS=--no-deprecation payload run src/seed/service-photos.ts"

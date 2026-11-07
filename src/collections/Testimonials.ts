@@ -1,15 +1,21 @@
 import type { CollectionConfig } from 'payload'
 
+import { allow, allowCreate, hiddenUnless } from '../access/roles'
+
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   admin: {
     useAsTitle: 'name',
     group: 'Content',
+    hidden: hiddenUnless('testimonials'),
     defaultColumns: ['name', 'company', 'order'],
   },
   defaultSort: 'order',
   access: {
     read: () => true,
+    create: allowCreate('testimonials'),
+    update: allow('testimonials', 'edit'),
+    delete: allow('testimonials', 'full'),
   },
   fields: [
     { name: 'quote', type: 'textarea', required: true },

@@ -16,6 +16,7 @@ import { Posts } from './collections/Posts'
 import { Categories } from './collections/Categories'
 import { Testimonials } from './collections/Testimonials'
 import { Leads } from './collections/Leads'
+import { Roles } from './collections/Roles'
 import { SiteSettings } from './globals/SiteSettings'
 
 import { migrations } from './migrations'
@@ -45,7 +46,7 @@ export default buildConfig({
       },
     },
   },
-  collections: [Posts, Categories, Results, Services, Testimonials, Media, Leads, Users],
+  collections: [Posts, Categories, Results, Services, Testimonials, Media, Leads, Users, Roles],
   globals: [SiteSettings],
   editor: lexicalEditor(),
   // Outgoing email (enquiry alerts, password resets). Configure SMTP_* in the environment;

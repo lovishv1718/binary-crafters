@@ -1,5 +1,7 @@
 import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
 
+import { allow, hiddenUnless } from '../access/roles'
+
 const escape = (v: unknown) =>
   String(v ?? '')
     .replace(/&/g, '&amp;')
@@ -52,11 +54,16 @@ export const Leads: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'Inbox',
+    hidden: hiddenUnless('leads'),
     defaultColumns: ['name', 'email', 'service', 'status', 'createdAt'],
   },
   defaultSort: '-createdAt',
   access: {
+    // Staff only see enquiries if their role allows it, and only for their services when limited.
+    read: allow('leads', 'read'),
     create: () => false,
+    update: allow('leads', 'edit'),
+    delete: allow('leads', 'full'),
   },
   hooks: {
     afterChange: [notifyNewLead],
