@@ -4,6 +4,7 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 import sharp from 'sharp'
 
+import { createPresetRoles } from '../access/presets'
 import * as art from './art'
 import { categories, posts, results, services } from './content'
 
@@ -159,6 +160,8 @@ for (const [i, p] of posts.entries()) {
     },
   })
 }
+
+await createPresetRoles(payload)
 
 payload.logger.info(`Seed complete: ${imageCount} demo images uploaded.`)
 process.exit(0)

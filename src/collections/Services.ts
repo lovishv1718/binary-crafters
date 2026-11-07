@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
+import { allow, allowCreate, hiddenUnless, publicRead } from '../access/roles'
 import { slugField } from '../fields/slug'
 
 export const SERVICE_ICONS = [
@@ -20,11 +21,15 @@ export const Services: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: 'Content',
+    hidden: hiddenUnless('services'),
     defaultColumns: ['title', 'order', 'updatedAt'],
   },
   defaultSort: 'order',
   access: {
-    read: () => true,
+    read: publicRead('services'),
+    create: allowCreate('services'),
+    update: allow('services', 'edit'),
+    delete: allow('services', 'full'),
   },
   fields: [
     { name: 'title', type: 'text', required: true },

@@ -1,13 +1,19 @@
 import type { CollectionConfig } from 'payload'
 
+import { allow, allowCreate, hiddenUnless } from '../access/roles'
+
 export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
     group: 'Content',
+    hidden: hiddenUnless('media'),
     description: 'Every image on the site: result screenshots, blog covers, team photos.',
   },
   access: {
     read: () => true,
+    create: allowCreate('media'),
+    update: allow('media', 'edit'),
+    delete: allow('media', 'full'),
   },
   fields: [
     {

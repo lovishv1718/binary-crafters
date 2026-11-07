@@ -75,6 +75,7 @@ export interface Config {
     media: Media;
     leads: Lead;
     users: User;
+    roles: Role;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     leads: LeadsSelect<false> | LeadsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -385,6 +387,8 @@ export interface Lead {
   createdAt: string;
 }
 /**
+ * Team logins. Owners can do everything; everyone else only gets what their role allows.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -394,6 +398,14 @@ export interface User {
    * Shown as the author on blog posts.
    */
   name?: string | null;
+  /**
+   * Owners can do everything, including adding team members and roles.
+   */
+  owner?: boolean | null;
+  /**
+   * What this person can see and edit. Create roles under Settings → Roles.
+   */
+  role?: (number | null) | Role;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -413,6 +425,60 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * Make a role for each kind of team member, choose what it can do, then give it to their login under Users.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: number;
+  name: string;
+  /**
+   * Optional note on who this role is for.
+   */
+  description?: string | null;
+  /**
+   * Optional. When set, this role only sees and edits Results, Service pages and Enquiries for these services. Leave empty for all services.
+   */
+  services?: (number | Service)[] | null;
+  permissions: {
+    /**
+     * Client projects, screenshots and numbers.
+     */
+    results: 'none' | 'read' | 'edit' | 'full';
+    /**
+     * Text, photos, FAQs on each service page. Roles limited to services cannot add new ones.
+     */
+    services: 'none' | 'read' | 'edit' | 'full';
+    /**
+     * Write, edit and publish articles.
+     */
+    posts: 'none' | 'read' | 'edit' | 'full';
+    /**
+     * The topics that filter the blog.
+     */
+    categories: 'none' | 'read' | 'edit' | 'full';
+    /**
+     * Client quotes on the home page.
+     */
+    testimonials: 'none' | 'read' | 'edit' | 'full';
+    /**
+     * Anyone who can edit content can already upload images. Set this to let them manage or delete all images.
+     */
+    media: 'none' | 'read' | 'edit' | 'full';
+    /**
+     * Messages from the contact form.
+     */
+    leads: 'none' | 'read' | 'edit' | 'full';
+    /**
+     * Phone, email, social links, home page text and analytics.
+     */
+    siteSettings: 'none' | 'read' | 'edit';
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -469,6 +535,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'roles';
+        value: number | Role;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -711,6 +781,8 @@ export interface LeadsSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  owner?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -728,6 +800,29 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  services?: T;
+  permissions?:
+    | T
+    | {
+        results?: T;
+        services?: T;
+        posts?: T;
+        categories?: T;
+        testimonials?: T;
+        media?: T;
+        leads?: T;
+        siteSettings?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
